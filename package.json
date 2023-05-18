@@ -9,11 +9,15 @@
       "bundlewatch": "^0.3.3"
     },
     "bundlewatch": {
-        "files": [
-            {
-              "path": "./apps/iq-flow/build/*.js",
-              "maxSize": "50Kb"
-            }
-        ]
+      "trackBranches": [
+        "main",
+        "test/build"
+      ],
+      "files": [
+          {
+            "path": "./apps/iq-flow/build/*.js",
+            "maxSize": "50Kb"
+          }
+      ]
     }
   }
