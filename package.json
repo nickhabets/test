@@ -8,6 +8,18 @@
       "bundlesize": "^0.18.0",
       "bundlewatch": "^0.3.3"
     },
+    "bundlesize": {
+      "trackBranches": [
+        "main",
+        "test/build"
+      ],
+      "files": [
+          {
+            "path": "./apps/iq-flow/build/*.js",
+            "maxSize": "50Kb"
+          }
+      ]
+    },
     "bundlewatch": {
       "trackBranches": [
         "main",
