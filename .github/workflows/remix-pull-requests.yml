@@ -2,7 +2,7 @@ name: Remix PR Build
 on:
   pull_request:
     branches:
-      - master
+      - main
     paths:
       - apps/iq-flow/**
       - apps/margo/**
@@ -21,6 +21,7 @@ jobs:
               directory: 'apps/iq-flow',
             },
           ]
+    runs-on: ubuntu-latest
     name: ${{ matrix.apps.title }} - PR Build
     steps:
       - name: Checkout repo
