@@ -55,7 +55,6 @@ jobs:
 
       - name: Bundle Size Check
         if: steps.changed-files.outputs.any_changed == 'true' && matrix.apps.name == 'iq-flow-remixed'
-        continue-on-error: true
         run: yarn run bundlesize
 
       - name: Create Review
