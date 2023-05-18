@@ -6,6 +6,8 @@ on:
     paths:
       - apps/iq-flow/**
       - apps/margo/**
+  pull_request_review:
+    types: [submitted]
   workflow_dispatch:
 jobs:
   pull:
@@ -55,3 +57,16 @@ jobs:
         if: steps.changed-files.outputs.any_changed == 'true' && matrix.apps.name == 'iq-flow-remixed'
         continue-on-error: true
         run: yarn run bundlesize
+
+      - name: Create Review
+        if: failure()
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.pulls.createReview({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              body: "Custom message to add in the PR checklist."
+            });
