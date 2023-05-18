@@ -42,11 +42,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.12.0'
+      - name: Add Yarn Globally
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          npm install --global yarn
+      - name: Install packages
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: yarn install
+        working-directory: ./out
 
       - name: Bundle Size Check
         if: steps.changed-files.outputs.any_changed == 'true' && matrix.apps.name == 'iq-flow-remixed'
-        uses: siddharthkp/bundlesize@v0.18.0
-        with:
-          github_token: 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
-          directories: build
-          args: --max-size 150kb --verbose
+        run: yarn test
+        working-directory: ./out
