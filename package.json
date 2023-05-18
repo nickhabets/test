@@ -5,6 +5,15 @@
       "bundlesize": "bundlesize"
     },
     "devDependencies": {
-      "bundlesize": "^0.18.0"
+      "bundlesize": "^0.18.0",
+      "bundlewatch": "^0.3.3"
+    },
+    "bundlewatch": {
+        "files": [
+            {
+              "path": "./apps/iq-flow/build/*.js",
+              "maxSize": "50Kb"
+            }
+        ]
     }
   }
