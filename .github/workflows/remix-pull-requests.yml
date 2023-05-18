@@ -1,0 +1,51 @@
+name: Remix PR Build
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - apps/iq-flow/**
+      - apps/margo/**
+  workflow_dispatch:
+jobs:
+  pull:
+    strategy:
+      max-parallel: 2
+      matrix:
+        apps:
+          [
+            { title: 'Margo', name: 'margo', directory: 'apps/margo' },
+            {
+              title: 'IQ-Flow Remix',
+              name: 'iq-flow-remixed',
+              directory: 'apps/iq-flow',
+            },
+          ]
+    name: ${{ matrix.apps.title }} - PR Build
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get Changed Files
+        id: changed-files
+        uses: tj-actions/changed-files@v35.7.11
+        with:
+          files: |
+            ${{ matrix.apps.directory }}
+            packages
+
+      - name: Setup Node 18
+        if: steps.changed-files.outputs.any_changed == 'true'
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.12.0'
+
+      - name: Bundle Size Check
+        if: steps.changed-files.outputs.any_changed == 'true' && matrix.apps.name == 'iq-flow-remixed'
+        uses: siddharthkp/bundlesize@v4.2.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          directories: build
+          args: --max-size 150kb --verbose
