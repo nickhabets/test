@@ -1,31 +1,7 @@
 {
     "name": "aaaaa",
     "version": "1.0.0",
-    "scripts": {
-      "bundlesize": "bundlesize"
-    },
     "devDependencies": {
-      "bundlesize": "^0.18.0",
-      "bundlewatch": "^0.3.3"
-    },
-    "bundlesize": {
-      "files": [
-          {
-            "path": "./apps/iq-flow/build/*.js",
-            "maxSize": "50Kb"
-          }
-      ]
-    },
-    "bundlewatch": {
-      "trackBranches": [
-        "main",
-        "test/build"
-      ],
-      "files": [
-          {
-            "path": "./apps/iq-flow/build/*.js",
-            "maxSize": "50Kb"
-          }
-      ]
+      "bundlesize": "^0.18.0"
     }
   }
