@@ -9,10 +9,6 @@
       "bundlewatch": "^0.3.3"
     },
     "bundlesize": {
-      "trackBranches": [
-        "main",
-        "test/build"
-      ],
       "files": [
           {
             "path": "./apps/iq-flow/build/*.js",
