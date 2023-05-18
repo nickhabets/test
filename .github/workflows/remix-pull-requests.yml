@@ -53,4 +53,4 @@ jobs:
 
       - name: Bundle Size Check
         if: steps.changed-files.outputs.any_changed == 'true' && matrix.apps.name == 'iq-flow-remixed'
-        run: yarn run bundlesize --config configs/bundlesize.json
+        run: yarn run bundlesize --config ./bundlesize.config.json
