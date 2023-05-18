@@ -47,13 +47,11 @@ jobs:
         if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           npm install --global yarn
-          
+
       - name: Install packages
         if: steps.changed-files.outputs.any_changed == 'true'
         run: yarn install
-        working-directory: ./out
 
       - name: Bundle Size Check
         if: steps.changed-files.outputs.any_changed == 'true' && matrix.apps.name == 'iq-flow-remixed'
         run: yarn test
-        working-directory: ./out
