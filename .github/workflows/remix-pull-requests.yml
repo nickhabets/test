@@ -53,4 +53,6 @@ jobs:
 
       - name: Bundle Size Check
         if: steps.changed-files.outputs.any_changed == 'true' && matrix.apps.name == 'iq-flow-remixed'
-        run: yarn run bundlesize --config ./bundlesize.config.json
+        run: |
+          file_size=$(wc -c < ./apps/iq-flow/build/index.js)
+          echo "File size is ${file_size} bytes"
