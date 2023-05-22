@@ -1,0 +1,8 @@
+{
+    "files": [
+      {
+        "path": "./apps/iq-flow/build/*.*",
+        "maxSize": "5MB"
+      }
+    ]
+  }

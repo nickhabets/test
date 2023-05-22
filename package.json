@@ -1,0 +1,7 @@
+{
+    "name": "aaaaa",
+    "version": "1.0.0",
+    "devDependencies": {
+      "bundlesize": "^0.18.0"
+    }
+  }

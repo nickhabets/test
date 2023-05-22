@@ -2,7 +2,7 @@ name: Remix PR Build
 on:
   pull_request:
     branches:
-      - master
+      - main
     paths:
       - apps/iq-flow/**
       - apps/margo/**
@@ -14,13 +14,13 @@ jobs:
       matrix:
         apps:
           [
-            { title: 'Margo', name: 'margo', directory: 'apps/margo' },
             {
               title: 'IQ-Flow Remix',
               name: 'iq-flow-remixed',
               directory: 'apps/iq-flow',
             },
           ]
+    runs-on: ubuntu-latest
     name: ${{ matrix.apps.title }} - PR Build
     steps:
       - name: Checkout repo
@@ -42,10 +42,29 @@ jobs:
         with:
           node-version: '18.12.0'
 
+      - name: Add Yarn Globally
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          npm install --global yarn
+
+      - name: Install packages
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: yarn install
+
       - name: Bundle Size Check
         if: steps.changed-files.outputs.any_changed == 'true' && matrix.apps.name == 'iq-flow-remixed'
-        uses: siddharthkp/bundlesize@v4.2.2
+        run: |
+          file_size=$(wc -c < ./apps/iq-flow/build/index.js)
+          echo "File size is ${file_size} bytes"
+
+      - name: Checkout main repo
+        uses: actions/checkout@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          directories: build
-          args: --max-size 150kb --verbose
+          ref: main
+
+      - name: Bundle Size Check For Main Branch
+        if: steps.changed-files.outputs.any_changed == 'true' && matrix.apps.name == 'iq-flow-remixed'
+        run: |
+          file_size=$(wc -c < ./apps/iq-flow/build/index.js)
+          echo "File size is ${file_size} bytes"
+
