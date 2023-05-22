@@ -52,7 +52,19 @@ jobs:
         run: yarn install
 
       - name: Bundle Size Check
-        id: save_size
         if: steps.changed-files.outputs.any_changed == 'true' && matrix.apps.name == 'iq-flow-remixed'
         run: |
-          echo "::set-output name=current_size::$(cat ./apps/iq-flow/build/index.js | awk '/./{line=$0} END{print line}' | awk '{print $1}' | sed 's/[^0-9]*//g')"
+          file_size=$(wc -c < ./apps/iq-flow/build/index.js)
+          echo "File size is ${file_size} bytes"
+
+      - name: Checkout main repo
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Bundle Size Check For Main Branch
+        if: steps.changed-files.outputs.any_changed == 'true' && matrix.apps.name == 'iq-flow-remixed'
+        run: |
+          file_size=$(wc -c < ./apps/iq-flow/build/index.js)
+          echo "File size is ${file_size} bytes"
+
