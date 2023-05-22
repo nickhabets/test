@@ -47,10 +47,6 @@ jobs:
         run: |
           npm install --global yarn
 
-      - name: Install packages
-        if: steps.changed-files.outputs.any_changed == 'true'
-        run: yarn install
-
       - name: Bundle Size Check
         if: steps.changed-files.outputs.any_changed == 'true' && matrix.apps.name == 'iq-flow-remixed'
         run: |
@@ -63,6 +59,7 @@ jobs:
           ref: main
 
       - name: Bundle Size Check For Main Branch
+        id: bundle_size_main
         if: steps.changed-files.outputs.any_changed == 'true' && matrix.apps.name == 'iq-flow-remixed'
         run: |
           file_size=$(wc -c < ./apps/iq-flow/build/index.js)
