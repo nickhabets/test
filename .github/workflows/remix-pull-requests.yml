@@ -28,6 +28,14 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Get Changed Files
+        id: changed-files
+        uses: tj-actions/changed-files@v35.7.11
+        with:
+          files: |
+            ${{ matrix.apps.directory }}
+            packages
+
       - name: Setup Node 18
         if: steps.changed-files.outputs.any_changed == 'true'
         uses: actions/setup-node@v3
@@ -44,16 +52,3 @@ jobs:
         run: |
           file_size=$(wc -c < ./apps/iq-flow/build/index.js)
           echo "File size is ${file_size} bytes"
-
-      - name: Checkout main repo
-        uses: actions/checkout@v3
-        with:
-          ref: main
-
-      - name: Bundle Size Check For Main Branch
-        id: bundle_size_main
-        if: steps.changed-files.outputs.any_changed == 'true' && matrix.apps.name == 'iq-flow-remixed'
-        run: |
-          file_size=$(wc -c < ./apps/iq-flow/build/index.js)
-          echo "File size is ${file_size} bytes"
-
